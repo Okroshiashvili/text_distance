@@ -1,7 +1,11 @@
 # Text Distance
 
+---
+
 > **⚠ WARNING:**
-> This is a work in progress. The API is not optimized and stable yet.
+> **This is a work in progress. The API is not optimized and stable yet.**
+
+---
 
 **Text Distance** - A collection of algorithms for measuring the distance between two strings.
 
