@@ -2,6 +2,18 @@
 name = "text_distance"
 version = "0.1.0"
 edition = "2021"
+authors = ["Nodar Okroshiashvili <n.okroshiashvili@gmail.com>"]
+
+description = "A collection of approximate string matching algorithms"
+repository = "https://github.com/Okroshiashvili/text_distance"
+readme = "README.md"
+license = "MIT"
+
+include = [
+    "**/*.rs",
+    "Cargo.toml",
+    "LICENCE",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
