@@ -9,6 +9,9 @@ repository = "https://github.com/Okroshiashvili/text_distance"
 readme = "README.md"
 license = "MIT"
 
+keywords = ["text", "distance", "string", "approximate", "matching", "algorithms"]
+categories = ["text-processing"]
+
 include = [
     "**/*.rs",
     "Cargo.toml",
