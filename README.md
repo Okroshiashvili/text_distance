@@ -1,9 +1,16 @@
+![Cargo Build & Test](https://github.com/Okroshiashvili/text_distance/actions/workflows/ci.yml/badge.svg)
+
 # Text Distance
 
 ---
 
 > **⚠ WARNING:**
 > **This is a work in progress. The API is not optimized and stable yet.**
+
+---
+
+> **Side Note:**
+> I've started this project to learn Rust. If you see something that is very odd or is in dire need of improvement please let me know!
 
 ---
 
