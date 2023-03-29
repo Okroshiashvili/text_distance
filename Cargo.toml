@@ -10,6 +10,7 @@ readme = "README.md"
 license = "MIT"
 
 keywords = ["text", "distance", "string", "matching", "algorithms"]
+
 categories = ["text-processing"]
 
 include = [
