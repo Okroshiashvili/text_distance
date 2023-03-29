@@ -13,6 +13,7 @@ impl Levenshtein {
 
         // initialize the matrix
         let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_t + 1]; len_s + 1];
+
         for i in 1..(len_s + 1) {
             matrix[i][0] = i;
         }
