@@ -22,7 +22,13 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-text_distance = "0.1.0"
+text_distance = "0.2.0"
+```
+
+or in terminal run
+
+```bash
+cargo add text_distance
 ```
 
 ## Example
@@ -32,7 +38,7 @@ use text_distance::Levenshtein;
 
 
 fn main() {
-    let lev = Levenshtein {s: "test".to_owned(),  t: "book".to_owned()};
+    let lev = Levenshtein {s: "test".to_string(),  t: "book".to_string()};
 
     let plain_distance = lev.distance();
     let normalized_distance = lev.normalized_distance();
