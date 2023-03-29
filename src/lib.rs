@@ -1,12 +1,7 @@
-pub use self::edit::*;
+pub use self::hamming::*;
+pub use self::levenshtein::*;
 
-pub mod edit;
+mod hamming;
+mod levenshtein;
+
 mod helpers;
-
-/*
-Having pub use self::edit::*; and pub mod edit;
-allows me to do the following:
-
-use text_distance::edit::Levenshtein;
-use text_distance::Levenshtein;
-*/

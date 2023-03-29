@@ -1,5 +1,4 @@
-use std::cmp::max;
-use std::cmp::min;
+use std::cmp::{max, min};
 
 #[inline(always)]
 pub fn min_of_3(a: usize, b: usize, c: usize) -> usize {
