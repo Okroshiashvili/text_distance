@@ -1,46 +1,46 @@
 use std::cmp::max;
 
 pub struct Levenshtein {
-    pub s: String,
-    pub t: String,
+    pub src: String,
+    pub tar: String,
 }
 
 impl Levenshtein {
     /// Calculate the Levenshtein distance between two strings.
     pub fn distance(&self) -> usize {
-        let len_s = self.s.chars().count();
-        let len_t = self.t.chars().count();
+        let len_src = self.src.chars().count();
+        let len_tar = self.tar.chars().count();
 
         // initialize the matrix
-        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_t + 1]; len_s + 1];
+        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 1]; len_src + 1];
 
-        for i in 1..(len_s + 1) {
+        for i in 1..(len_src + 1) {
             matrix[i][0] = i;
         }
-        for i in 1..(len_t + 1) {
+        for i in 1..(len_tar + 1) {
             matrix[0][i] = i;
         }
 
         // apply edit operations
-        for (i, s_char) in self.s.chars().enumerate() {
-            for (j, t_char) in self.t.chars().enumerate() {
+        for (i, s_char) in self.src.chars().enumerate() {
+            for (j, t_char) in self.tar.chars().enumerate() {
                 let substitution_cost = if s_char == t_char { 0 } else { 1 };
                 let operations = [
-                    matrix[i][j + 1] + 1,        // deletion
-                    matrix[i + 1][j] + 1,        // insertion
+                    matrix[i][j + 1] + 1,             // deletion
+                    matrix[i + 1][j] + 1,             // insertion
                     matrix[i][j] + substitution_cost, // substitution
                 ];
                 matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
             }
         }
 
-        return matrix[len_s][len_t];
+        return matrix[len_src][len_tar];
     }
 
     pub fn normalized_distance(&self) -> f64 {
         let maximum = max(
-            self.s.clone().chars().count(),
-            self.t.clone().chars().count(),
+            self.src.clone().chars().count(),
+            self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
         if maximum != 0 {
@@ -51,8 +51,8 @@ impl Levenshtein {
 
     pub fn similarity(&self) -> usize {
         let maximum = max(
-            self.s.clone().chars().count(),
-            self.t.clone().chars().count(),
+            self.src.clone().chars().count(),
+            self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
         return maximum - str_distance;

@@ -1,19 +1,19 @@
 use std::cmp::max;
 
 pub struct Hamming {
-    pub s: String,
-    pub t: String,
+    pub src: String,
+    pub tar: String,
 }
 
 impl Hamming {
     pub fn distance(&self) -> usize {
-        if self.s.chars().count() != self.t.chars().count() {
+        if self.src.chars().count() != self.tar.chars().count() {
             panic!("Hamming distance is only defined for strings of equal length");
         }
 
         let mut distance_counter = 0;
 
-        for (s_char, t_char) in self.s.chars().zip(self.t.chars()) {
+        for (s_char, t_char) in self.src.chars().zip(self.tar.chars()) {
             if s_char != t_char {
                 distance_counter += 1;
             }
@@ -23,8 +23,8 @@ impl Hamming {
 
     pub fn normalized_distance(&self) -> f64 {
         let maximum = max(
-            self.s.clone().chars().count(),
-            self.t.clone().chars().count(),
+            self.src.clone().chars().count(),
+            self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
         if maximum != 0 {
@@ -35,8 +35,8 @@ impl Hamming {
 
     pub fn similarity(&self) -> usize {
         let maximum = max(
-            self.s.clone().chars().count(),
-            self.t.clone().chars().count(),
+            self.src.clone().chars().count(),
+            self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
         return maximum - str_distance;
