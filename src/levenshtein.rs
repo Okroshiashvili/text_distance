@@ -1,4 +1,4 @@
-use crate::helpers;
+use std::cmp::max;
 
 pub struct Levenshtein {
     pub s: String,
@@ -24,12 +24,13 @@ impl Levenshtein {
         // apply edit operations
         for (i, s_char) in self.s.chars().enumerate() {
             for (j, t_char) in self.t.chars().enumerate() {
-                let substitution = if s_char == t_char { 0 } else { 1 };
-                matrix[i + 1][j + 1] = helpers::min_of_3(
+                let substitution_cost = if s_char == t_char { 0 } else { 1 };
+                let operations = [
                     matrix[i][j + 1] + 1,        // deletion
                     matrix[i + 1][j] + 1,        // insertion
-                    matrix[i][j] + substitution, // substitution
-                );
+                    matrix[i][j] + substitution_cost, // substitution
+                ];
+                matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
             }
         }
 
@@ -37,7 +38,10 @@ impl Levenshtein {
     }
 
     pub fn normalized_distance(&self) -> f64 {
-        let maximum = helpers::max_text_length(self.s.clone(), self.t.clone());
+        let maximum = max(
+            self.s.clone().chars().count(),
+            self.t.clone().chars().count(),
+        );
         let str_distance = self.distance();
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
@@ -46,7 +50,10 @@ impl Levenshtein {
     }
 
     pub fn similarity(&self) -> usize {
-        let maximum = helpers::max_text_length(self.s.clone(), self.t.clone());
+        let maximum = max(
+            self.s.clone().chars().count(),
+            self.t.clone().chars().count(),
+        );
         let str_distance = self.distance();
         return maximum - str_distance;
     }

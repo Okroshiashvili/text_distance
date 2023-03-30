@@ -1,4 +1,4 @@
-use crate::helpers;
+use std::cmp::max;
 
 pub struct Hamming {
     pub s: String,
@@ -22,7 +22,10 @@ impl Hamming {
     }
 
     pub fn normalized_distance(&self) -> f64 {
-        let maximum = helpers::max_text_length(self.s.clone(), self.t.clone());
+        let maximum = max(
+            self.s.clone().chars().count(),
+            self.t.clone().chars().count(),
+        );
         let str_distance = self.distance();
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
@@ -31,7 +34,10 @@ impl Hamming {
     }
 
     pub fn similarity(&self) -> usize {
-        let maximum = helpers::max_text_length(self.s.clone(), self.t.clone());
+        let maximum = max(
+            self.s.clone().chars().count(),
+            self.t.clone().chars().count(),
+        );
         let str_distance = self.distance();
         return maximum - str_distance;
     }

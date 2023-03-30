@@ -3,5 +3,3 @@ pub use self::levenshtein::*;
 
 mod hamming;
 mod levenshtein;
-
-mod helpers;
