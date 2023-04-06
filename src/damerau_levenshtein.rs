@@ -5,30 +5,33 @@ use std::collections::HashMap;
 /// The Damerau-Levenshtein distance is a string metric for measuring edit distance between two sequences.
 /// The Damerau-Levenshtein distance differs from the Levenshtein distance by including transpositions as a single edit operation.
 /// [For more information see wikipedia article](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
-/// 
+///
 /// ### Examples
-/// 
+///
 /// ```
 /// use text_distance::DamerauLevenshtein;
-/// 
+///
 /// let damerau_levenshtein = DamerauLevenshtein {src: "karolin".to_string(),  tar: "kathrin".to_string(), restricted: true};
-/// 
+///
 /// assert_eq!(3, damerau_levenshtein.distance());
 /// assert_eq!(0.42857142857142855, damerau_levenshtein.normalized_distance());
 /// assert_eq!(4, damerau_levenshtein.similarity());
 /// assert_eq!(0.5714285714285714, damerau_levenshtein.normalized_similarity());
-/// 
+///
 /// ```
-/// 
+///
 pub struct DamerauLevenshtein {
+    /// Source string
     pub src: String,
+    /// Target string
     pub tar: String,
+    /// * If `restricted = true` it calculates `Optimal String Alignment Distance`.
+    /// * If `restricted = false` it calculates distance with `Adjacent Transpositions`.
     pub restricted: bool,
 }
 
 impl DamerauLevenshtein {
     fn restricted_distance(&self) -> usize {
-        // get length of unicode chars
         let len_src = self.src.chars().count();
         let len_tar = self.tar.chars().count();
 
@@ -71,7 +74,6 @@ impl DamerauLevenshtein {
     }
 
     fn unrestricted_distance(&self) -> usize {
-        // get length of unicode chars
         let len_src = self.src.chars().count();
         let len_tar = self.tar.chars().count();
 
@@ -123,18 +125,18 @@ impl DamerauLevenshtein {
     /// The parameter `restricted` is used to determine the algorithm.
     /// If restricted is `true`, it calculates `Optimal String Alignment Distance`.
     /// If restricted is `false`, it calculates distance with `Adjacent Transpositions`.
-    /// 
+    ///
     /// ### Examples
-    /// 
+    ///
     /// ```
     /// use text_distance::DamerauLevenshtein;
-    /// 
+    ///
     /// let restricted_damerau_levenshtein = DamerauLevenshtein {src: "ca".to_string(),  tar: "abc".to_string(), restricted: true};
     /// let unrestricted_damerau_levenshtein = DamerauLevenshtein {src: "ca".to_string(),  tar: "abc".to_string(), restricted: false};
-    /// 
+    ///
     /// assert_eq!(3, restricted_damerau_levenshtein.distance());
     /// assert_eq!(2, unrestricted_damerau_levenshtein.distance());
-    /// 
+    ///
     /// ```
     pub fn distance(&self) -> usize {
         if self.restricted {
@@ -149,15 +151,15 @@ impl DamerauLevenshtein {
     /// The normalized distance is always between 0.0 and 1.0.
     /// When 0.0 then two strings are equal.
     /// When 1.0 then two strings are completely different.
-    /// 
+    ///
     /// ## Examples
     /// ```
     /// use text_distance::DamerauLevenshtein;
-    /// 
+    ///
     /// let damerau_levenshtein = DamerauLevenshtein {src: "karolin".to_string(),  tar: "kathrin".to_string(), restricted: true};
-    /// 
+    ///
     /// assert_eq!(0.42857142857142855, damerau_levenshtein.normalized_distance());
-    /// 
+    ///
     /// ```
     pub fn normalized_distance(&self) -> f64 {
         let maximum = max(
@@ -176,16 +178,16 @@ impl DamerauLevenshtein {
     /// The similarity is always between 0 and the length of the longest string.
     /// When 0 then two strings are completely different.
     /// When the length of the longest string then two strings are equal.
-    /// 
+    ///
     /// ## Examples
-    /// 
+    ///
     /// ```
     /// use text_distance::DamerauLevenshtein;
-    /// 
+    ///
     /// let damerau_levenshtein = DamerauLevenshtein {src: "karolin".to_string(),  tar: "kathrin".to_string(), restricted: true};
-    /// 
+    ///
     /// assert_eq!(4, damerau_levenshtein.similarity());
-    /// 
+    ///
     /// ```
     pub fn similarity(&self) -> usize {
         let maximum = max(
@@ -197,21 +199,21 @@ impl DamerauLevenshtein {
     }
 
     /// Calculate the `normalized similarity` between two strings.
-    /// The normalized similarity is the similarity divided by the length of the longest string.
+    /// The normalized similarity is 1 minus normalized distance.
     /// The normalized similarity is always between 0.0 and 1.0.
     /// When 0.0 then two strings are completely different.
     /// When 1.0 then two strings are equal.
     /// The normalized similarity is the same as 1.0 minus the normalized distance.
-    /// 
+    ///
     /// ## Examples
-    /// 
+    ///
     /// ```
     /// use text_distance::DamerauLevenshtein;
-    /// 
+    ///
     /// let damerau_levenshtein = DamerauLevenshtein {src: "karolin".to_string(),  tar: "kathrin".to_string(), restricted: true};
-    /// 
+    ///
     /// assert_eq!(0.5714285714285714, damerau_levenshtein.normalized_similarity());
-    /// 
+    ///
     /// ```
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
