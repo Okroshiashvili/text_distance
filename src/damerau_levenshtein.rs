@@ -21,14 +21,17 @@ use std::collections::HashMap;
 /// ```
 /// 
 pub struct DamerauLevenshtein {
+    /// Source string
     pub src: String,
+    /// Target string
     pub tar: String,
+    /// * If `restricted = true` it calculates `Optimal String Alignment Distance`.
+    /// * If `restricted = false` it calculates distance with `Adjacent Transpositions`.
     pub restricted: bool,
 }
 
 impl DamerauLevenshtein {
     fn restricted_distance(&self) -> usize {
-        // get length of unicode chars
         let len_src = self.src.chars().count();
         let len_tar = self.tar.chars().count();
 
@@ -71,7 +74,6 @@ impl DamerauLevenshtein {
     }
 
     fn unrestricted_distance(&self) -> usize {
-        // get length of unicode chars
         let len_src = self.src.chars().count();
         let len_tar = self.tar.chars().count();
 
@@ -197,7 +199,7 @@ impl DamerauLevenshtein {
     }
 
     /// Calculate the `normalized similarity` between two strings.
-    /// The normalized similarity is the similarity divided by the length of the longest string.
+    /// The normalized similarity is 1 minus normalized distance.
     /// The normalized similarity is always between 0.0 and 1.0.
     /// When 0.0 then two strings are completely different.
     /// When 1.0 then two strings are equal.

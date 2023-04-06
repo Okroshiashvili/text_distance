@@ -20,7 +20,9 @@ use std::cmp::max;
 /// ```
 /// 
 pub struct Levenshtein {
+    /// Source string
     pub src: String,
+    /// Target string
     pub tar: String,
 }
 
@@ -79,6 +81,7 @@ impl Levenshtein {
     /// When 1.0 then two strings are completely different.
     /// 
     /// ## Examples
+    /// 
     /// ```
     /// use text_distance::Levenshtein;
     /// 
@@ -87,6 +90,7 @@ impl Levenshtein {
     /// assert_eq!(0.42857142857142855, levenshtein.normalized_distance());
     /// 
     /// ```
+    /// 
     pub fn normalized_distance(&self) -> f64 {
         let maximum = max(
             self.src.clone().chars().count(),
@@ -115,6 +119,7 @@ impl Levenshtein {
     /// assert_eq!(4, levenshtein.similarity());
     /// 
     /// ```
+    /// 
     pub fn similarity(&self) -> usize {
         let maximum = max(
             self.src.clone().chars().count(),
@@ -125,11 +130,10 @@ impl Levenshtein {
     }
 
     /// Calculate the `normalized similarity` between two strings.
-    /// The normalized similarity is the similarity divided by the length of the longest string.
+    /// The normalized similarity is 1 minus normalized distance.
     /// The normalized similarity is always between 0.0 and 1.0.
     /// When 0.0 then two strings are completely different.
     /// When 1.0 then two strings are equal.
-    /// The normalized similarity is the same as 1.0 minus the normalized distance.
     /// 
     /// ## Examples
     /// 
@@ -141,6 +145,7 @@ impl Levenshtein {
     /// assert_eq!(0.5714285714285714, levenshtein.normalized_similarity());
     /// 
     /// ```
+    /// 
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
         return 1.0 - str_normalized_distance;
