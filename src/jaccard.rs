@@ -37,12 +37,12 @@ impl Jaccard {
             // by words
             0 => {
                 let tokens: HashSet<String> = text.split_whitespace().map(String::from).collect();
-                return tokens;
+                tokens
             }
             // by chars
             1 => {
                 let tokens: HashSet<String> = text.chars().map(String::from).collect();
-                return tokens;
+                tokens
             }
             // by ngrams
             _ => {
@@ -54,7 +54,7 @@ impl Jaccard {
                     .windows(self.qval)
                     .map(|ngram| String::from_utf8_lossy(ngram).to_string())
                     .collect();
-                return tokens;
+                tokens
             }
         }
     }
@@ -85,7 +85,8 @@ impl Jaccard {
         let tokens_union: HashSet<&String> = src_tokens.union(&tar_tokens).collect();
         // let tokens_intersection = src_tokens.intersection(&tar_tokens).collect::<HashSet<&String>>();
         // let tokens_union = src_tokens.union(&tar_tokens).collect::<HashSet<&String>>();
-        return 1.0 - (tokens_intersection.len() as f32 / tokens_union.len() as f32);
+
+        1.0 - (tokens_intersection.len() as f32 / tokens_union.len() as f32)
     }
 
     /// Calculate the `normalized distance`.
@@ -106,7 +107,8 @@ impl Jaccard {
     /// ```
     pub fn normalized_distance(&self) -> f32 {
         let str_distance = self.distance();
-        return str_distance / 1.0;
+
+        str_distance / 1.0
     }
 
     /// Calculate the `similarity`.
@@ -127,7 +129,8 @@ impl Jaccard {
     /// ```
     pub fn similarity(&self) -> f32 {
         let str_distance = self.distance();
-        return 1.0 - str_distance;
+
+        1.0 - str_distance
     }
 
     /// Calculate the `normalized similarity`.
@@ -149,6 +152,7 @@ impl Jaccard {
     ///
     pub fn normalized_similarity(&self) -> f32 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+
+        1.0 - str_normalized_distance
     }
 }

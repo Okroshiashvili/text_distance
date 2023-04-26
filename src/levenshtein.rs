@@ -71,7 +71,7 @@ impl Levenshtein {
             }
         }
 
-        return matrix[len_src][len_tar];
+        matrix[len_src][len_tar]
     }
 
     /// Calculate the `normalized distance` between two strings.
@@ -100,7 +100,8 @@ impl Levenshtein {
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
         }
-        return 0.0;
+
+        0.0
     }
 
     /// Calculate the `similarity` between two strings.
@@ -126,7 +127,8 @@ impl Levenshtein {
             self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
-        return maximum - str_distance;
+
+        maximum - str_distance
     }
 
     /// Calculate the `normalized similarity` between two strings.
@@ -148,6 +150,7 @@ impl Levenshtein {
     ///
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+
+        1.0 - str_normalized_distance
     }
 }

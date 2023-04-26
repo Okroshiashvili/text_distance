@@ -37,6 +37,8 @@ impl DamerauLevenshtein {
 
         let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 1]; len_src + 1];
 
+        // TODO: use `iter::repeat` instead of `for` loop
+        // TODO: try to rewrite that loop
         for i in 0..(len_src + 1) {
             matrix[i][0] = i;
         }
@@ -70,7 +72,7 @@ impl DamerauLevenshtein {
             }
         }
 
-        return matrix[len_src][len_tar];
+        matrix[len_src][len_tar]
     }
 
     fn unrestricted_distance(&self) -> usize {
@@ -118,7 +120,7 @@ impl DamerauLevenshtein {
             da.insert(self.src.chars().nth(i - 1).unwrap(), i);
         }
 
-        return matrix[len_src + 1][len_tar + 1];
+        matrix[len_src + 1][len_tar + 1]
     }
 
     /// Calculate the `Damerau-Levenshtein` distance between two strings.
@@ -170,7 +172,7 @@ impl DamerauLevenshtein {
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
         }
-        return 0.0;
+        0.0
     }
 
     /// Calculate the `similarity` between two strings.
@@ -195,7 +197,7 @@ impl DamerauLevenshtein {
             self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
-        return maximum - str_distance;
+        maximum - str_distance
     }
 
     /// Calculate the `normalized similarity` between two strings.
@@ -217,6 +219,6 @@ impl DamerauLevenshtein {
     /// ```
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+        1.0 - str_normalized_distance
     }
 }
