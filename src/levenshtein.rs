@@ -45,16 +45,17 @@ impl Levenshtein {
     ///
     /// ```
     pub fn distance(&self) -> usize {
-        let len_src = self.src.chars().count();
-        let len_tar = self.tar.chars().count();
+        let src_len = self.src.chars().count();
+        let tar_len = self.tar.chars().count();
 
         // initialize the matrix
-        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 1]; len_src + 1];
+        let mut matrix: Vec<Vec<usize>> = vec![vec![0; tar_len + 1]; src_len + 1];
 
-        for i in 1..(len_src + 1) {
+        for i in 1..(src_len + 1) {
             matrix[i][0] = i;
         }
-        for i in 1..(len_tar + 1) {
+
+        for i in 1..(tar_len + 1) {
             matrix[0][i] = i;
         }
 
@@ -67,11 +68,11 @@ impl Levenshtein {
                     matrix[i + 1][j] + 1,             // insertion
                     matrix[i][j] + substitution_cost, // substitution
                 ];
-                matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
+                matrix[i + 1][j + 1] = *operations.iter().min().unwrap();
             }
         }
 
-        matrix[len_src][len_tar]
+        matrix[src_len][tar_len]
     }
 
     /// Calculate the `normalized distance` between two strings.
