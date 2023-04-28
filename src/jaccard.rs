@@ -77,7 +77,7 @@ impl Jaccard {
     ///
     /// ```
     ///
-    pub fn distance(&self) -> f32 {
+    pub fn distance(&self) -> f64 {
         let src_tokens = self.tokenize(&self.src);
         let tar_tokens = self.tokenize(&self.tar);
 
@@ -86,7 +86,7 @@ impl Jaccard {
         // let tokens_intersection = src_tokens.intersection(&tar_tokens).collect::<HashSet<&String>>();
         // let tokens_union = src_tokens.union(&tar_tokens).collect::<HashSet<&String>>();
 
-        1.0 - (tokens_intersection.len() as f32 / tokens_union.len() as f32)
+        1.0 - (tokens_intersection.len() as f64 / tokens_union.len() as f64)
     }
 
     /// Calculate the `normalized distance`.
@@ -105,7 +105,7 @@ impl Jaccard {
     /// assert_eq!(0.44444442, jaccard.normalized_distance());
     ///
     /// ```
-    pub fn normalized_distance(&self) -> f32 {
+    pub fn normalized_distance(&self) -> f64 {
         let str_distance = self.distance();
 
         str_distance / 1.0
@@ -127,7 +127,7 @@ impl Jaccard {
     /// assert_eq!(0.5555556, jaccard.similarity());
     ///
     /// ```
-    pub fn similarity(&self) -> f32 {
+    pub fn similarity(&self) -> f64 {
         let str_distance = self.distance();
 
         1.0 - str_distance
@@ -150,7 +150,7 @@ impl Jaccard {
     ///
     /// ```
     ///
-    pub fn normalized_similarity(&self) -> f32 {
+    pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
 
         1.0 - str_normalized_distance
