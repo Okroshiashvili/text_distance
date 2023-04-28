@@ -11,10 +11,10 @@ use std::collections::HashSet;
 ///
 /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
 ///
-/// assert_eq!(0.44444442, jaccard.distance());
-/// assert_eq!(0.44444442, jaccard.normalized_distance());
-/// assert_eq!(0.5555556, jaccard.similarity());
-/// assert_eq!(0.5555556, jaccard.normalized_similarity());
+/// assert_eq!(0.4444444444444444, jaccard.distance());
+/// assert_eq!(0.4444444444444444, jaccard.normalized_distance());
+/// assert_eq!(0.5555555555555556, jaccard.similarity());
+/// assert_eq!(0.5555555555555556, jaccard.normalized_similarity());
 ///
 /// ```
 ///
@@ -73,7 +73,7 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.44444442, jaccard.distance())
+    /// assert_eq!(0.4444444444444444, jaccard.distance())
     ///
     /// ```
     ///
@@ -102,7 +102,7 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.44444442, jaccard.normalized_distance());
+    /// assert_eq!(0.4444444444444444, jaccard.normalized_distance());
     ///
     /// ```
     pub fn normalized_distance(&self) -> f64 {
@@ -124,7 +124,7 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.5555556, jaccard.similarity());
+    /// assert_eq!(0.5555555555555556, jaccard.similarity());
     ///
     /// ```
     pub fn similarity(&self) -> f64 {
@@ -146,7 +146,7 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.5555556, jaccard.normalized_similarity());
+    /// assert_eq!(0.5555555555555556, jaccard.normalized_similarity());
     ///
     /// ```
     ///
