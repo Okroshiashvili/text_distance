@@ -11,10 +11,10 @@ use std::collections::HashSet;
 ///
 /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
 ///
-/// assert_eq!(0.44444442, jaccard.distance());
-/// assert_eq!(0.44444442, jaccard.normalized_distance());
-/// assert_eq!(0.5555556, jaccard.similarity());
-/// assert_eq!(0.5555556, jaccard.normalized_similarity());
+/// assert_eq!(0.4444444444444444, jaccard.distance());
+/// assert_eq!(0.4444444444444444, jaccard.normalized_distance());
+/// assert_eq!(0.5555555555555556, jaccard.similarity());
+/// assert_eq!(0.5555555555555556, jaccard.normalized_similarity());
 ///
 /// ```
 ///
@@ -37,12 +37,12 @@ impl Jaccard {
             // by words
             0 => {
                 let tokens: HashSet<String> = text.split_whitespace().map(String::from).collect();
-                return tokens;
+                tokens
             }
             // by chars
             1 => {
                 let tokens: HashSet<String> = text.chars().map(String::from).collect();
-                return tokens;
+                tokens
             }
             // by ngrams
             _ => {
@@ -54,7 +54,7 @@ impl Jaccard {
                     .windows(self.qval)
                     .map(|ngram| String::from_utf8_lossy(ngram).to_string())
                     .collect();
-                return tokens;
+                tokens
             }
         }
     }
@@ -73,11 +73,11 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.44444442, jaccard.distance())
+    /// assert_eq!(0.4444444444444444, jaccard.distance())
     ///
     /// ```
     ///
-    pub fn distance(&self) -> f32 {
+    pub fn distance(&self) -> f64 {
         let src_tokens = self.tokenize(&self.src);
         let tar_tokens = self.tokenize(&self.tar);
 
@@ -85,7 +85,8 @@ impl Jaccard {
         let tokens_union: HashSet<&String> = src_tokens.union(&tar_tokens).collect();
         // let tokens_intersection = src_tokens.intersection(&tar_tokens).collect::<HashSet<&String>>();
         // let tokens_union = src_tokens.union(&tar_tokens).collect::<HashSet<&String>>();
-        return 1.0 - (tokens_intersection.len() as f32 / tokens_union.len() as f32);
+
+        1.0 - (tokens_intersection.len() as f64 / tokens_union.len() as f64)
     }
 
     /// Calculate the `normalized distance`.
@@ -101,12 +102,13 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.44444442, jaccard.normalized_distance());
+    /// assert_eq!(0.4444444444444444, jaccard.normalized_distance());
     ///
     /// ```
-    pub fn normalized_distance(&self) -> f32 {
+    pub fn normalized_distance(&self) -> f64 {
         let str_distance = self.distance();
-        return str_distance / 1.0;
+
+        str_distance / 1.0
     }
 
     /// Calculate the `similarity`.
@@ -122,12 +124,13 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.5555556, jaccard.similarity());
+    /// assert_eq!(0.5555555555555556, jaccard.similarity());
     ///
     /// ```
-    pub fn similarity(&self) -> f32 {
+    pub fn similarity(&self) -> f64 {
         let str_distance = self.distance();
-        return 1.0 - str_distance;
+
+        1.0 - str_distance
     }
 
     /// Calculate the `normalized similarity`.
@@ -143,12 +146,13 @@ impl Jaccard {
     ///
     /// let jaccard = Jaccard {src: "karolin".to_string(),  tar: "kathrin".to_string(), qval: 1};
     ///
-    /// assert_eq!(0.5555556, jaccard.normalized_similarity());
+    /// assert_eq!(0.5555555555555556, jaccard.normalized_similarity());
     ///
     /// ```
     ///
-    pub fn normalized_similarity(&self) -> f32 {
+    pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+
+        1.0 - str_normalized_distance
     }
 }

@@ -45,16 +45,17 @@ impl Levenshtein {
     ///
     /// ```
     pub fn distance(&self) -> usize {
-        let len_src = self.src.chars().count();
-        let len_tar = self.tar.chars().count();
+        let src_len = self.src.chars().count();
+        let tar_len = self.tar.chars().count();
 
         // initialize the matrix
-        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 1]; len_src + 1];
+        let mut matrix: Vec<Vec<usize>> = vec![vec![0; tar_len + 1]; src_len + 1];
 
-        for i in 1..(len_src + 1) {
+        for i in 1..(src_len + 1) {
             matrix[i][0] = i;
         }
-        for i in 1..(len_tar + 1) {
+
+        for i in 1..(tar_len + 1) {
             matrix[0][i] = i;
         }
 
@@ -67,11 +68,11 @@ impl Levenshtein {
                     matrix[i + 1][j] + 1,             // insertion
                     matrix[i][j] + substitution_cost, // substitution
                 ];
-                matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
+                matrix[i + 1][j + 1] = *operations.iter().min().unwrap();
             }
         }
 
-        return matrix[len_src][len_tar];
+        matrix[src_len][tar_len]
     }
 
     /// Calculate the `normalized distance` between two strings.
@@ -100,7 +101,8 @@ impl Levenshtein {
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
         }
-        return 0.0;
+
+        0.0
     }
 
     /// Calculate the `similarity` between two strings.
@@ -126,7 +128,8 @@ impl Levenshtein {
             self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
-        return maximum - str_distance;
+
+        maximum - str_distance
     }
 
     /// Calculate the `normalized similarity` between two strings.
@@ -148,6 +151,7 @@ impl Levenshtein {
     ///
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+
+        1.0 - str_normalized_distance
     }
 }

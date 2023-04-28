@@ -32,16 +32,16 @@ pub struct DamerauLevenshtein {
 
 impl DamerauLevenshtein {
     fn restricted_distance(&self) -> usize {
-        let len_src = self.src.chars().count();
-        let len_tar = self.tar.chars().count();
+        let src_len = self.src.chars().count();
+        let tar_len = self.tar.chars().count();
 
-        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 1]; len_src + 1];
+        let mut matrix: Vec<Vec<usize>> = vec![vec![0; tar_len + 1]; src_len + 1];
 
-        for i in 0..(len_src + 1) {
+        for i in 0..(src_len + 1) {
             matrix[i][0] = i;
         }
 
-        for j in 0..(len_tar + 1) {
+        for j in 0..(tar_len + 1) {
             matrix[0][j] = j;
         }
 
@@ -54,7 +54,7 @@ impl DamerauLevenshtein {
                     matrix[i][j] + substitution_cost, // substitution
                 ];
 
-                matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
+                matrix[i + 1][j + 1] = *operations.iter().min().unwrap();
 
                 // transposition
                 if i > 0
@@ -70,36 +70,33 @@ impl DamerauLevenshtein {
             }
         }
 
-        return matrix[len_src][len_tar];
+        matrix[src_len][tar_len]
     }
 
     fn unrestricted_distance(&self) -> usize {
-        let len_src = self.src.chars().count();
-        let len_tar = self.tar.chars().count();
+        let src_len = self.src.chars().count();
+        let tar_len = self.tar.chars().count();
 
-        let max_dist = len_src + len_tar;
+        let max_dist = src_len + tar_len;
 
         let mut da: HashMap<char, usize> = HashMap::new();
-        let mut matrix: Vec<Vec<usize>> = vec![vec![0; len_tar + 2]; len_src + 2];
+        let mut matrix: Vec<Vec<usize>> = vec![vec![0; tar_len + 2]; src_len + 2];
         matrix[0][0] = max_dist;
 
-        for i in 0..(len_src + 1) {
+        for i in 0..(src_len + 1) {
             matrix[i + 1][0] = max_dist;
             matrix[i + 1][1] = i;
         }
 
-        for j in 0..(len_tar + 1) {
+        for j in 0..(tar_len + 1) {
             matrix[0][j + 1] = max_dist;
             matrix[1][j + 1] = j;
         }
 
-        for i in 1..(len_src + 1) {
+        for i in 1..(src_len + 1) {
             let mut db = 0;
-            for j in 1..(len_tar + 1) {
-                let k = da
-                    .get(&self.tar.chars().nth(j - 1).unwrap())
-                    .unwrap_or(&0)
-                    .clone();
+            for j in 1..(tar_len + 1) {
+                let k = *da.get(&self.tar.chars().nth(j - 1).unwrap()).unwrap_or(&0);
                 let l = db;
 
                 let mut substitution_cost = 1;
@@ -113,12 +110,12 @@ impl DamerauLevenshtein {
                     matrix[i][j + 1] + 1,                         // deletion
                     matrix[k][l] + (i - k - 1) + 1 + (j - l - 1), // transposition
                 ];
-                matrix[i + 1][j + 1] = operations.iter().min().unwrap().clone();
+                matrix[i + 1][j + 1] = *operations.iter().min().unwrap();
             }
             da.insert(self.src.chars().nth(i - 1).unwrap(), i);
         }
 
-        return matrix[len_src + 1][len_tar + 1];
+        matrix[src_len + 1][tar_len + 1]
     }
 
     /// Calculate the `Damerau-Levenshtein` distance between two strings.
@@ -170,7 +167,7 @@ impl DamerauLevenshtein {
         if maximum != 0 {
             return (str_distance as f64) / (maximum as f64);
         }
-        return 0.0;
+        0.0
     }
 
     /// Calculate the `similarity` between two strings.
@@ -195,7 +192,7 @@ impl DamerauLevenshtein {
             self.tar.clone().chars().count(),
         );
         let str_distance = self.distance();
-        return maximum - str_distance;
+        maximum - str_distance
     }
 
     /// Calculate the `normalized similarity` between two strings.
@@ -217,6 +214,6 @@ impl DamerauLevenshtein {
     /// ```
     pub fn normalized_similarity(&self) -> f64 {
         let str_normalized_distance = self.normalized_distance();
-        return 1.0 - str_normalized_distance;
+        1.0 - str_normalized_distance
     }
 }
